@@ -40,7 +40,7 @@
 
 GitHub Actions 中的 **Build Windows ZIP** 工作流仅构建 Windows x64。在推送到 `main`、推送以 `v` 开头的标签、提交 Pull Request 时自动运行，也可以在 Actions 页面手动运行。进入成功的任务，在 Artifacts 中下载 **ShakeBigMouse-win-x64.zip**，产物保留 30 天。
 
-解压后运行 `ShakeBigMouse-win-x64/ShakeBigMouse.exe`。压缩包包含 .NET 运行时和中英文说明，无需另外安装 .NET。exe 和其他构建产物不会提交到 Git。
+解压后运行 `ShakeBigMouse-win-x64/ShakeBigMouse.exe`。压缩包包含 .NET 运行时、中英文说明和 MIT 许可证，无需另外安装 .NET。exe 和其他构建产物不会提交到 Git。
 
 在 Windows 上安装 .NET 10 SDK 和 PowerShell 7，即可用相同脚本在本地构建 ZIP：
 
@@ -58,3 +58,7 @@ dotnet run --project ./tests/BehaviorTests/BehaviorTests.csproj --configuration 
 ```
 
 这些检查会使用真实窗口、显示器和鼠标指针。GitHub 工作流会编译测试项目，并验证压缩包中的 `--show` 命令可以正常启动和退出，不依赖完整桌面测试环境。
+
+## 许可证
+
+[MIT](LICENSE)。基于 [nowonderwhyy/shake-to-find-cursor](https://github.com/nowonderwhyy/shake-to-find-cursor) 开发。

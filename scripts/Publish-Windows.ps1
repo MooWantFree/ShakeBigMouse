@@ -44,8 +44,8 @@ try {
     }
 
     Get-ChildItem -LiteralPath $publishDirectory -Force | Copy-Item -Destination $packageDirectory -Recurse -Force
-    foreach ($readme in @('README.md', 'README.zh-CN.md')) {
-        Copy-Item -LiteralPath (Join-Path $repositoryRoot $readme) -Destination $packageDirectory
+    foreach ($document in @('README.md', 'README.zh-CN.md', 'LICENSE')) {
+        Copy-Item -LiteralPath (Join-Path $repositoryRoot $document) -Destination $packageDirectory
     }
     $stagedZip = Join-Path $stagingRoot ($packageName + '.zip')
     [IO.Compression.ZipFile]::CreateFromDirectory($packageDirectory, $stagedZip,

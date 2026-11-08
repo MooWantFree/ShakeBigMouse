@@ -40,7 +40,7 @@ Under **General**, turn on **Launch at Login** if you want the app to start when
 
 The **Build Windows ZIP** GitHub Actions workflow builds only Windows x64. It runs on pushes to `main`, tags starting with `v`, pull requests, and manual runs from the Actions tab. Open a successful run and download **ShakeBigMouse-win-x64.zip** from its artifacts. Artifacts are retained for 30 days.
 
-Extract the ZIP and run `ShakeBigMouse-win-x64/ShakeBigMouse.exe`. The package includes the .NET runtime and both READMEs; no separate .NET installation is needed. Executables and build output are not stored in Git.
+Extract the ZIP and run `ShakeBigMouse-win-x64/ShakeBigMouse.exe`. The package includes the .NET runtime, both READMEs and the MIT license; no separate .NET installation is needed. Executables and build output are not stored in Git.
 
 To build the same ZIP locally, install the .NET 10 SDK and PowerShell 7 on Windows, then run:
 
@@ -58,3 +58,7 @@ dotnet run --project ./tests/BehaviorTests/BehaviorTests.csproj --configuration 
 ```
 
 These checks use real windows, monitors and cursors. The GitHub workflow compiles the test project and verifies that the packaged `--show` command starts and exits successfully without requiring a desktop test session.
+
+## License
+
+[MIT](LICENSE). Based on [nowonderwhyy/shake-to-find-cursor](https://github.com/nowonderwhyy/shake-to-find-cursor).

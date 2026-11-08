@@ -14,7 +14,7 @@ try {
     Expand-Archive -LiteralPath $archivePath -DestinationPath $verificationRoot
     $packageRoot = Join-Path $verificationRoot 'ShakeBigMouse-win-x64'
     $exePath = Join-Path $packageRoot 'ShakeBigMouse.exe'
-    foreach ($required in @('ShakeBigMouse.exe', 'README.md', 'README.zh-CN.md')) {
+    foreach ($required in @('ShakeBigMouse.exe', 'README.md', 'README.zh-CN.md', 'LICENSE')) {
         if (!(Test-Path -LiteralPath (Join-Path $packageRoot $required) -PathType Leaf)) {
             throw "Missing packaged file: $required"
         }
