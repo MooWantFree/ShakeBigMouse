@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="AppName" xml:space="preserve"><value>ShakeBigMouse</value></data>
+  <data name="Settings" xml:space="preserve"><value>Settings</value></data>
+  <data name="Shake" xml:space="preserve"><value>Shake</value></data>
+  <data name="General" xml:space="preserve"><value>General</value></data>
+  <data name="SectionGeneral" xml:space="preserve"><value>GENERAL</value></data>
+  <data name="Startup" xml:space="preserve"><value>Launch at Login</value></data>
+  <data name="SectionShake" xml:space="preserve"><value>SHAKE DETECTION</value></data>
+  <data name="Distance" xml:space="preserve"><value>Minimum shake distance</value></data>
+  <data name="SizeValue" xml:space="preserve"><value>{0:0.0}×</value></data>
+  <data name="HoldValue" xml:space="preserve"><value>{0:0.0} s</value></data>
+  <data name="SectionAppearance" xml:space="preserve"><value>ENLARGEMENT EFFECT</value></data>
+  <data name="MaxSize" xml:space="preserve"><value>Maximum Size</value></data>
+  <data name="Enlargement" xml:space="preserve"><value>Enlargement</value></data>
+  <data name="Proportional" xml:space="preserve"><value>Follow shake strength</value></data>
+  <data name="Maximum" xml:space="preserve"><value>Always reach maximum</value></data>
+  <data name="Hold" xml:space="preserve"><value>Hold After Shaking</value></data>
+  <data name="CommandLineDuration" xml:space="preserve"><value>Command-line duration</value></data>
+  <data name="SectionCommandLine" xml:space="preserve"><value>COMMAND LINE</value></data>
+  <data name="ProcessPathUnavailable" xml:space="preserve"><value>Cannot read the executable path.</value></data>
+  <data name="CommandLineUsage" xml:space="preserve"><value>While the app is running, use .\ShakeBigMouse.exe --show.</value></data>
+  <data name="ShrinkSpeed" xml:space="preserve"><value>Shrink Speed</value></data>
+  <data name="HoldHelp" xml:space="preserve"><value>0 s starts shrinking immediately.</value></data>
+  <data name="Fullscreen" xml:space="preserve"><value>Disable in Fullscreen</value></data>
+  <data name="FullscreenHelp" xml:space="preserve"><value>Pause when games or videos are fullscreen</value></data>
+  <data name="SectionExcluded" xml:space="preserve"><value>EXCLUDED APPS</value></data>
+  <data name="MatchProcessNameOnly" xml:space="preserve"><value>Match process name only</value></data>
+  <data name="MatchProcessNameOnlyHelp" xml:space="preserve"><value>Ignore the executable path and match all processes with this name.</value></data>
+  <data name="LegacyNameRuleHelp" xml:space="preserve"><value>This older rule has no path. Remove and re-add the app to match by path.</value></data>
+  <data name="AddApp" xml:space="preserve"><value>Add App...</value></data>
+  <data name="AddCurrent" xml:space="preserve"><value>+ Current</value></data>
+  <data name="Remove" xml:space="preserve"><value>Remove</value></data>
+  <data name="Saved" xml:space="preserve"><value>Saved</value></data>
+  <data name="Reset" xml:space="preserve"><value>Reset</value></data>
+  <data name="Apply" xml:space="preserve"><value>Apply</value></data>
+  <data name="Preview" xml:space="preserve"><value>Preview</value></data>
+  <data name="ErrorPreview" xml:space="preserve"><value>Could not preview the enlargement.</value></data>
+  <data name="UnitSeconds" xml:space="preserve"><value>s</value></data>
+  <data name="UnitTimes" xml:space="preserve"><value>×</value></data>
+  <data name="DecimalInputRange" xml:space="preserve"><value>Enter a number from {0} to {1}.</value></data>
+  <data name="Confirm" xml:space="preserve"><value>Confirm</value></data>
+  <data name="PickerTitle" xml:space="preserve"><value>Select Application to Exclude</value></data>
+  <data name="Search" xml:space="preserve"><value>Search applications...</value></data>
+  <data name="RunningApps" xml:space="preserve"><value>Running Applications</value></data>
+  <data name="PickerHelp" xml:space="preserve"><value>Select an application to exclude from shake detection</value></data>
+  <data name="Refresh" xml:space="preserve"><value>Refresh</value></data>
+  <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="AddSelected" xml:space="preserve"><value>Add Selected</value></data>
+  <data name="PickerCount" xml:space="preserve"><value>Applications found: {0}</value></data>
+  <data name="PickerFiltered" xml:space="preserve"><value>Showing {0} of {1}</value></data>
+  <data name="LanguageLabel" xml:space="preserve"><value>Language</value></data>
+  <data name="LanguageSystem" xml:space="preserve"><value>System default</value></data>
+  <data name="LanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="LanguageChinese" xml:space="preserve"><value>简体中文</value></data>
+  <data name="Minimize" xml:space="preserve"><value>Minimize</value></data>
+  <data name="Close" xml:space="preserve"><value>Close</value></data>
+  <data name="Disable" xml:space="preserve"><value>Disable</value></data>
+  <data name="Enable" xml:space="preserve"><value>Enable</value></data>
+  <data name="TraySettings" xml:space="preserve"><value>Settings…</value></data>
+  <data name="Exit" xml:space="preserve"><value>Exit</value></data>
+  <data name="TrayDisabled" xml:space="preserve"><value>ShakeBigMouse (disabled)</value></data>
+  <data name="TrayHookFailed" xml:space="preserve"><value>ShakeBigMouse (mouse hook failed)</value></data>
+  <data name="HookError" xml:space="preserve"><value>Could not start mouse monitoring. Shake detection is unavailable.</value></data>
+  <data name="ErrorStartup" xml:space="preserve"><value>Windows could not update Launch at Login.</value></data>
+  <data name="ErrorSave" xml:space="preserve"><value>Could not save settings</value></data>
+  <data name="Info" xml:space="preserve"><value>Information</value></data>
+  <data name="Error" xml:space="preserve"><value>Error</value></data>
+  <data name="UnitLogicalPx" xml:space="preserve"><value>logical px</value></data>
+  <data name="UnitMs" xml:space="preserve"><value>ms</value></data>
+  <data name="UnitPercent" xml:space="preserve"><value>%</value></data>
+  <data name="IntervalShort" xml:space="preserve"><value>Detection window</value></data>
+  <data name="FactorShort" xml:space="preserve"><value>Screen diagonal threshold</value></data>
+  <data name="ThresholdHelp" xml:space="preserve"><value>Within this time window, total travel must reach the larger of the minimum distance and the chosen percentage of the current screen’s diagonal.</value></data>
+  <data name="EmptyExclusions" xml:space="preserve"><value>No excluded apps yet.</value></data>
+  <data name="AddTarget" xml:space="preserve"><value>Add: {0}</value></data>
+  <data name="InputRange" xml:space="preserve"><value>Enter a whole number from {0} to {1}.</value></data>
+</root>

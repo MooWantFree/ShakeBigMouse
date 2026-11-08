@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="AppName" xml:space="preserve"><value>ShakeBigMouse</value></data>
+  <data name="Settings" xml:space="preserve"><value>设置</value></data>
+  <data name="Shake" xml:space="preserve"><value>晃动</value></data>
+  <data name="General" xml:space="preserve"><value>通用设置</value></data>
+  <data name="SectionGeneral" xml:space="preserve"><value>通用设置</value></data>
+  <data name="Startup" xml:space="preserve"><value>登录时启动</value></data>
+  <data name="SectionShake" xml:space="preserve"><value>晃动检测</value></data>
+  <data name="Distance" xml:space="preserve"><value>最小抖动距离</value></data>
+  <data name="SizeValue" xml:space="preserve"><value>{0:0.0} 倍</value></data>
+  <data name="HoldValue" xml:space="preserve"><value>{0:0.0} 秒</value></data>
+  <data name="SectionAppearance" xml:space="preserve"><value>放大效果</value></data>
+  <data name="MaxSize" xml:space="preserve"><value>最大尺寸</value></data>
+  <data name="Enlargement" xml:space="preserve"><value>放大方式</value></data>
+  <data name="Proportional" xml:space="preserve"><value>随晃动幅度放大</value></data>
+  <data name="Maximum" xml:space="preserve"><value>始终放大到最大尺寸</value></data>
+  <data name="Hold" xml:space="preserve"><value>停止晃动后保持</value></data>
+  <data name="CommandLineDuration" xml:space="preserve"><value>命令行放大持续时间</value></data>
+  <data name="SectionCommandLine" xml:space="preserve"><value>命令行</value></data>
+  <data name="ProcessPathUnavailable" xml:space="preserve"><value>无法读取程序路径。</value></data>
+  <data name="CommandLineUsage" xml:space="preserve"><value>程序运行时，执行 .\ShakeBigMouse.exe --show。</value></data>
+  <data name="ShrinkSpeed" xml:space="preserve"><value>缩小速度</value></data>
+  <data name="HoldHelp" xml:space="preserve"><value>设为 0 秒时立即开始缩小。</value></data>
+  <data name="Fullscreen" xml:space="preserve"><value>全屏时停用</value></data>
+  <data name="FullscreenHelp" xml:space="preserve"><value>游戏或视频全屏时暂停放大</value></data>
+  <data name="SectionExcluded" xml:space="preserve"><value>排除的应用</value></data>
+  <data name="MatchProcessNameOnly" xml:space="preserve"><value>仅匹配进程名</value></data>
+  <data name="MatchProcessNameOnlyHelp" xml:space="preserve"><value>忽略程序所在路径，匹配所有同名进程。</value></data>
+  <data name="LegacyNameRuleHelp" xml:space="preserve"><value>旧规则未记录路径，请删除后重新添加应用以按路径匹配。</value></data>
+  <data name="AddApp" xml:space="preserve"><value>添加应用…</value></data>
+  <data name="AddCurrent" xml:space="preserve"><value>添加当前应用</value></data>
+  <data name="Remove" xml:space="preserve"><value>移除</value></data>
+  <data name="Saved" xml:space="preserve"><value>已保存</value></data>
+  <data name="Reset" xml:space="preserve"><value>重置</value></data>
+  <data name="Apply" xml:space="preserve"><value>应用</value></data>
+  <data name="Preview" xml:space="preserve"><value>预览放大</value></data>
+  <data name="ErrorPreview" xml:space="preserve"><value>无法预览放大效果。</value></data>
+  <data name="UnitSeconds" xml:space="preserve"><value>秒</value></data>
+  <data name="UnitTimes" xml:space="preserve"><value>倍</value></data>
+  <data name="DecimalInputRange" xml:space="preserve"><value>请输入 {0} 到 {1} 之间的数值。</value></data>
+  <data name="Confirm" xml:space="preserve"><value>确认</value></data>
+  <data name="PickerTitle" xml:space="preserve"><value>选择要排除的应用</value></data>
+  <data name="Search" xml:space="preserve"><value>搜索应用…</value></data>
+  <data name="RunningApps" xml:space="preserve"><value>正在运行的应用</value></data>
+  <data name="PickerHelp" xml:space="preserve"><value>选择不需要检测鼠标晃动的应用</value></data>
+  <data name="Refresh" xml:space="preserve"><value>刷新</value></data>
+  <data name="Cancel" xml:space="preserve"><value>取消</value></data>
+  <data name="AddSelected" xml:space="preserve"><value>添加所选应用</value></data>
+  <data name="PickerCount" xml:space="preserve"><value>找到 {0} 个应用</value></data>
+  <data name="PickerFiltered" xml:space="preserve"><value>显示 {0} 个，共 {1} 个</value></data>
+  <data name="LanguageLabel" xml:space="preserve"><value>界面语言 (Language)</value></data>
+  <data name="LanguageSystem" xml:space="preserve"><value>跟随系统</value></data>
+  <data name="LanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="LanguageChinese" xml:space="preserve"><value>简体中文</value></data>
+  <data name="Minimize" xml:space="preserve"><value>最小化</value></data>
+  <data name="Close" xml:space="preserve"><value>关闭</value></data>
+  <data name="Disable" xml:space="preserve"><value>停用</value></data>
+  <data name="Enable" xml:space="preserve"><value>启用</value></data>
+  <data name="TraySettings" xml:space="preserve"><value>设置…</value></data>
+  <data name="Exit" xml:space="preserve"><value>退出</value></data>
+  <data name="TrayDisabled" xml:space="preserve"><value>ShakeBigMouse（已停用）</value></data>
+  <data name="TrayHookFailed" xml:space="preserve"><value>ShakeBigMouse（鼠标监听失败）</value></data>
+  <data name="HookError" xml:space="preserve"><value>无法启动鼠标监听，晃动检测不可用。</value></data>
+  <data name="ErrorStartup" xml:space="preserve"><value>Windows 无法更新登录启动设置。</value></data>
+  <data name="ErrorSave" xml:space="preserve"><value>无法保存设置</value></data>
+  <data name="Info" xml:space="preserve"><value>提示</value></data>
+  <data name="Error" xml:space="preserve"><value>错误</value></data>
+  <data name="UnitLogicalPx" xml:space="preserve"><value>逻辑像素</value></data>
+  <data name="UnitMs" xml:space="preserve"><value>毫秒</value></data>
+  <data name="UnitPercent" xml:space="preserve"><value>%</value></data>
+  <data name="IntervalShort" xml:space="preserve"><value>检测时间窗口</value></data>
+  <data name="FactorShort" xml:space="preserve"><value>屏幕对角线比例</value></data>
+  <data name="ThresholdHelp" xml:space="preserve"><value>在检测时间窗口内，累计移动距离须达到两个门槛中较大的一个：最小抖动距离，或当前屏幕对角线 × 设定比例。</value></data>
+  <data name="EmptyExclusions" xml:space="preserve"><value>尚未排除任何应用。</value></data>
+  <data name="AddTarget" xml:space="preserve"><value>添加：{0}</value></data>
+  <data name="InputRange" xml:space="preserve"><value>请输入 {0} 到 {1} 之间的整数。</value></data>
+</root>

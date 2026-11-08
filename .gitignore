@@ -1,0 +1,46 @@
+# Build results
+dist/
+artifacts/
+.tools/
+*.exe
+*.dll
+*.pdb
+*.zip
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa]rm/
+[Aa]rm64/
+bbin/
+obj/
+bin/
+[Ll]og/
+[Ww]in32/
+
+# Visual Studio files
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+*.suo
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Vscode
+.vscode/
+
+# Local/Temp files
+/cursor.jpg
+err*.txt
+shake_test.png
+*.log
+*.tmp
+*.py
+
+# User settings
+settings.json

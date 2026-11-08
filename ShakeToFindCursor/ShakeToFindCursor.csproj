@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <AssemblyName>ShakeBigMouse</AssemblyName>
+    <RootNamespace>ShakeToFindCursor</RootNamespace>
+    <Product>ShakeBigMouse</Product>
+    <AssemblyTitle>ShakeBigMouse</AssemblyTitle>
+    <StartupObject>ShakeToFindCursor.Program</StartupObject>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <NeutralLanguage>en</NeutralLanguage>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\PointerIcon.ico</ApplicationIcon>
+    <!-- WPF owns startup; WinForms is used only for the tray. DPI must be set
+         before WPF creates any HWND, rather than via WinForms initialization. -->
+    <NoWarn>$(NoWarn);WFO0003</NoWarn>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\PointerIcon.ico" LogicalName="ShakeToFindCursor.Assets.TrayIcon.ico" />
+  </ItemGroup>
+
+</Project>

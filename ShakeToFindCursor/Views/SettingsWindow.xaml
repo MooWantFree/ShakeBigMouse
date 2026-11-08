@@ -1,0 +1,888 @@
+<Window x:Class="ShakeToFindCursor.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:l="clr-namespace:ShakeToFindCursor.Localization"
+        Language="{Binding Language, Source={x:Static l:UiText.Current}}"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{l:Loc AppName}"
+        Height="700" Width="680"
+        MinHeight="480" MinWidth="620"
+        WindowStartupLocation="CenterScreen"
+        Background="#F6F8FB" Foreground="#1F3045"
+        FontFamily="Segoe UI Variable Display, Segoe UI, Arial"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ShakeBigMouse;component/Views/SettingsButtons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        <!-- Colors -->
+        <SolidColorBrush x:Key="AccentBrush" Color="#245DB0"/>
+        <SolidColorBrush x:Key="AccentHoverBrush" Color="#174D95"/>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="#F6F8FB"/>
+        <SolidColorBrush x:Key="SidebarBrush" Color="#EFF3F7"/>
+        <SolidColorBrush x:Key="CardBrush" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="CardHoverBrush" Color="#E7EEF6"/>
+        <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1F3045"/>
+        <SolidColorBrush x:Key="TextSecondaryBrush" Color="#52657A"/>
+        <SolidColorBrush x:Key="BorderBrush" Color="#D5DFEA"/>
+        <SolidColorBrush x:Key="ControlBgBrush" Color="#D5DFEA"/>
+
+        <!-- Sidebar Category Button Style -->
+        <Style x:Key="SidebarButtonStyle" TargetType="RadioButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="Padding" Value="12,6"/>
+            <Setter Property="Margin" Value="8,2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="icon" Text="{TemplateBinding Tag}"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="15"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,10,0"/>
+                                <TextBlock x:Name="text" Text="{TemplateBinding Content}"
+                                           FontSize="13"
+                                           VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E6EDF5"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#D5DFEA"/>
+                                <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                                <Setter TargetName="icon" Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern Toggle Switch Style -->
+        <Style x:Key="ToggleSwitchStyle" TargetType="CheckBox">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid Background="Transparent" MinHeight="24">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/><ColumnDefinition Width="36"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter x:Name="label" VerticalAlignment="Center" Margin="0,0,8,0" RecognizesAccessKey="True"/>
+                            <Grid Grid.Column="1" Width="36" Height="20">
+                            <Border x:Name="focusRing" BorderBrush="{StaticResource AccentBrush}" BorderThickness="1"
+                                    CornerRadius="13" Margin="-3" Visibility="Collapsed"/>
+                            <Border x:Name="track"
+                                    Background="#8999AA"
+                                    CornerRadius="13"/>
+                            <Border x:Name="thumb"
+                                    Width="16" Height="16"
+                                    Background="White"
+                                    CornerRadius="11"
+                                    HorizontalAlignment="Left"
+                                    Margin="2,0,0,0">
+                                <Border.Effect>
+                                    <DropShadowEffect BlurRadius="3" ShadowDepth="1" Opacity="0.3" Direction="270"/>
+                                </Border.Effect>
+                                <Border.RenderTransform>
+                                    <TranslateTransform x:Name="thumbTranslate" X="0"/>
+                                </Border.RenderTransform>
+                            </Border>
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasContent" Value="False">
+                                <Setter TargetName="label" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="focusRing" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="track" Property="Background" Value="{StaticResource AccentBrush}"/>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="thumbTranslate"
+                                                             Storyboard.TargetProperty="X"
+                                                             To="16" Duration="0:0:0.12">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="thumbTranslate"
+                                                             Storyboard.TargetProperty="X"
+                                                             To="0" Duration="0:0:0.12">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.ExitActions>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LanguageComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="MinHeight" Value="30"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+                        <Setter Property="Padding" Value="10,6"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ComboBoxItem">
+                                    <Border x:Name="item" CornerRadius="4" Background="Transparent" Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="item" Property="Background" Value="#DCEAFE"/>
+                                            <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsHighlighted" Value="True">
+                                            <Setter TargetName="item" Property="Background" Value="#E7EEF6"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <Border x:Name="frame" CornerRadius="5" Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1"/>
+                            <ToggleButton x:Name="DropDownButton" Focusable="False" IsTabStop="False" ClickMode="Press"
+                                          IsChecked="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                                <ToggleButton.Template>
+                                    <ControlTemplate TargetType="ToggleButton">
+                                        <Border Background="Transparent"/>
+                                    </ControlTemplate>
+                                </ToggleButton.Template>
+                            </ToggleButton>
+                            <ContentPresenter Margin="10,0,30,0" VerticalAlignment="Center" IsHitTestVisible="False"
+                                              Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                              ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                            <TextBlock Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="10"
+                                       Foreground="{StaticResource TextSecondaryBrush}" Margin="0,0,10,0"
+                                       HorizontalAlignment="Right" VerticalAlignment="Center" IsHitTestVisible="False"/>
+                            <Popup x:Name="PART_Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}"
+                                   AllowsTransparency="True" Focusable="False" PopupAnimation="Fade">
+                                <Border Background="White" BorderBrush="{StaticResource BorderBrush}" BorderThickness="1"
+                                        CornerRadius="6" Padding="4" Margin="0,4,0,0"
+                                        MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}">
+                                    <ScrollViewer MaxHeight="{TemplateBinding MaxDropDownHeight}" CanContentScroll="True">
+                                        <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="frame" Property="BorderBrush" Value="{StaticResource AccentHoverBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                <Setter TargetName="frame" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsDropDownOpen" Value="True">
+                                <Setter TargetName="frame" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.45"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="NumberInputStyle" TargetType="TextBox">
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Width" Value="56"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="TextAlignment" Value="Right"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border x:Name="frame" CornerRadius="4" Background="White" BorderThickness="1"
+                                BorderBrush="{StaticResource BorderBrush}" Padding="5,0">
+                            <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter TargetName="frame" Property="BorderBrush" Value="{StaticResource AccentBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Modern Slider Style -->
+        <Style x:Key="ModernSliderStyle" TargetType="Slider">
+            <Setter Property="IsSnapToTickEnabled" Value="True"/>
+            <Setter Property="Height" Value="24"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid VerticalAlignment="Center">
+                            <Track x:Name="PART_Track">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="Slider.DecreaseLarge">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border Background="{StaticResource AccentBrush}"
+                                                        Height="4" CornerRadius="2"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="Slider.IncreaseLarge">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border Background="#C9D4E1"
+                                                        Height="4" CornerRadius="2"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.IncreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb x:Name="Thumb" Width="16" Height="16" Cursor="Hand">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Ellipse x:Name="thumbEllipse"
+                                                         Fill="White"
+                                                         Width="16" Height="16">
+                                                    <Ellipse.Effect>
+                                                        <DropShadowEffect BlurRadius="5" ShadowDepth="1"
+                                                                          Opacity="0.35" Direction="270"/>
+                                                    </Ellipse.Effect>
+                                                </Ellipse>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="thumbEllipse" Property="Fill" Value="#F5F5F5"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsDragging" Value="True">
+                                                        <Setter TargetName="thumbEllipse" Property="Fill" Value="#E8E8E8"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Card Style -->
+        <Style x:Key="SettingsCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource CardBrush}"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Padding" Value="12"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+
+        <!-- Section Header Style -->
+        <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+
+        <!-- Setting Label Style -->
+        <Style x:Key="SettingLabelStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <!-- Setting Description Style -->
+        <Style x:Key="SettingDescriptionStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Margin" Value="0,3,0,0"/>
+        </Style>
+
+        <!-- ListBox Style for Excluded Apps -->
+        <Style x:Key="ExcludedAppsListStyle" TargetType="ListBox">
+            <Setter Property="Background" Value="#EFF3F7"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle" Value="{StaticResource AppSelectionRowStyle}"/>
+        </Style>
+
+        <!-- Slim dark scrollbar to replace the native one -->
+        <Style TargetType="RepeatButton" x:Key="ScrollBarPageButton">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Background="Transparent"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Thumb" x:Key="ScrollBarThumb">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Border x:Name="thumb" CornerRadius="4" Background="#B8C5D3" Margin="2"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="thumb" Property="Background" Value="#94A5B8"/>
+                            </Trigger>
+                            <Trigger Property="IsDragging" Value="True">
+                                <Setter TargetName="thumb" Property="Background" Value="#7B8EA5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ScrollBar">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Width" Value="10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid Background="{TemplateBinding Background}">
+                            <Track x:Name="PART_Track" IsDirectionReversed="True">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageUpCommand"/>
+                                </Track.DecreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb Style="{StaticResource ScrollBarThumb}"/>
+                                </Track.Thumb>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageDownCommand"/>
+                                </Track.IncreaseRepeatButton>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="Width" Value="Auto"/>
+                    <Setter Property="Height" Value="10"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ScrollBar">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <Track x:Name="PART_Track">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageLeftCommand"/>
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb Style="{StaticResource ScrollBarThumb}"/>
+                                        </Track.Thumb>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageRightCommand"/>
+                                        </Track.IncreaseRepeatButton>
+                                    </Track>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Border Background="#F6F8FB" CornerRadius="8" BorderBrush="#FFFFFF" BorderThickness="1">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Custom Title Bar -->
+            <Border Grid.Row="0" Background="#EFF3F7" CornerRadius="8,8,0,0"
+                    MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                <Grid>
+                    <TextBlock Text="{l:Loc AppName}"
+                               FontSize="12"
+                               Foreground="#52657A"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+
+                    <!-- Window Controls -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="BtnMinimize"
+                                AutomationProperties.Name="{l:Loc Minimize}" Content="—"
+                                Width="46" Height="32"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                Foreground="#47576B"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Padding="0,-8,0,0"
+                                Click="BtnMinimize_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="0,0,0,0">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#DDE6F0"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#B8C5D3"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button x:Name="BtnCloseWindow"
+                                AutomationProperties.Name="{l:Loc Close}" Content="×"
+                                Width="46" Height="32"
+                                FontSize="20"
+                                FontWeight="Normal"
+                                Foreground="#47576B"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Click="BtnCloseWindow_Click">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="0,8,0,0">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#E81123"/>
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsPressed" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="#C81020"/>
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Main Content Area -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Sidebar -->
+                <Border Grid.Column="0" Grid.RowSpan="2" Background="{StaticResource SidebarBrush}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- App Title -->
+                        <StackPanel Margin="16,18,16,16">
+                            <TextBlock Text="{l:Loc Settings}" FontSize="20" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                        </StackPanel>
+
+                        <!-- Category Buttons -->
+                        <StackPanel Grid.Row="1" Margin="0,4,0,0">
+                            <RadioButton x:Name="NavGeneral" Style="{StaticResource SidebarButtonStyle}"
+                                         Content="{l:Loc General}" Tag="&#xE713;" IsChecked="True"
+                                         Checked="NavCategory_Checked"/>
+                            <RadioButton x:Name="NavShake" Style="{StaticResource SidebarButtonStyle}"
+                                         Content="{l:Loc Shake}" Tag="&#xE7C9;"
+                                         Checked="NavCategory_Checked"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- Content Area -->
+                <Border Grid.Column="1" Grid.Row="0">
+                    <Grid x:Name="ContentArea">
+                        <!-- Shake detection and enlargement -->
+                        <ScrollViewer x:Name="PanelShake" VerticalScrollBarVisibility="Auto" Padding="20" Visibility="Collapsed">
+                            <StackPanel MaxWidth="500">
+                                <TextBlock Text="{l:Loc SectionShake}" Style="{StaticResource SectionHeaderStyle}"/>
+                                <Border Style="{StaticResource SettingsCardStyle}">
+                                    <StackPanel>
+                                        <DockPanel LastChildFill="True">
+                                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                                <TextBox x:Name="InputDistance" Style="{StaticResource NumberInputStyle}"
+                                                         AutomationProperties.Name="{l:Loc Distance}"/>
+                                                <TextBlock Text="{l:Loc UnitLogicalPx}" Width="50" Margin="5,0,0,0" VerticalAlignment="Center"
+                                                           Foreground="{StaticResource TextSecondaryBrush}"/>
+                                            </StackPanel>
+                                            <TextBlock Text="{l:Loc Distance}" Style="{StaticResource SettingLabelStyle}"/>
+                                        </DockPanel>
+                                        <Slider x:Name="SliderMinimumShakeDistance" Style="{StaticResource ModernSliderStyle}"
+                                                Minimum="1" Maximum="3000" TickFrequency="1" SmallChange="1" LargeChange="100"
+                                                AutomationProperties.Name="{l:Loc Distance}" Height="17" Margin="0,1,0,0"/>
+                                        <TextBlock x:Name="ErrorDistance" Visibility="Collapsed" Foreground="#A32122" TextWrapping="Wrap"
+                                                   AutomationProperties.LiveSetting="Polite"/>
+                                        <Border Height="1" Margin="0,3" Background="{StaticResource BorderBrush}"/>
+                                        <DockPanel LastChildFill="True">
+                                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                                <TextBox x:Name="InputInterval" Style="{StaticResource NumberInputStyle}"
+                                                         AutomationProperties.Name="{l:Loc IntervalShort}"/>
+                                                <TextBlock Text="{l:Loc UnitMs}" Width="50" Margin="5,0,0,0" VerticalAlignment="Center"
+                                                           Foreground="{StaticResource TextSecondaryBrush}"/>
+                                            </StackPanel>
+                                            <TextBlock Text="{l:Loc IntervalShort}" Style="{StaticResource SettingLabelStyle}"/>
+                                        </DockPanel>
+                                        <Slider x:Name="SliderShakeWindowMs" Style="{StaticResource ModernSliderStyle}"
+                                                Minimum="50" Maximum="1500" TickFrequency="10" SmallChange="10" LargeChange="100"
+                                                AutomationProperties.Name="{l:Loc IntervalShort}" Height="17" Margin="0,1,0,0"/>
+                                        <TextBlock x:Name="ErrorInterval" Visibility="Collapsed" Foreground="#A32122" TextWrapping="Wrap"
+                                                   AutomationProperties.LiveSetting="Polite"/>
+                                        <Border Height="1" Margin="0,3" Background="{StaticResource BorderBrush}"/>
+                                        <DockPanel LastChildFill="True">
+                                            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                                                <TextBox x:Name="InputFactor" Style="{StaticResource NumberInputStyle}"
+                                                         AutomationProperties.Name="{l:Loc FactorShort}"/>
+                                                <TextBlock Text="{l:Loc UnitPercent}" Width="50" Margin="5,0,0,0" VerticalAlignment="Center"
+                                                           Foreground="{StaticResource TextSecondaryBrush}"/>
+                                            </StackPanel>
+                                            <TextBlock Text="{l:Loc FactorShort}" Style="{StaticResource SettingLabelStyle}"/>
+                                        </DockPanel>
+                                        <Slider x:Name="SliderShakeSensitivityPercent" Style="{StaticResource ModernSliderStyle}"
+                                                Minimum="1" Maximum="100" TickFrequency="1" SmallChange="1" LargeChange="5"
+                                                AutomationProperties.Name="{l:Loc FactorShort}" Height="17" Margin="0,1,0,0"/>
+                                        <TextBlock x:Name="ErrorFactor" Visibility="Collapsed" Foreground="#A32122" TextWrapping="Wrap"
+                                                   AutomationProperties.LiveSetting="Polite"/>
+                                        <TextBlock Text="{l:Loc ThresholdHelp}" Style="{StaticResource SettingDescriptionStyle}"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <TextBlock Text="{l:Loc SectionAppearance}" Style="{StaticResource SectionHeaderStyle}" Margin="0,6,0,8"/>
+                                <Border Style="{StaticResource SettingsCardStyle}">
+                                    <StackPanel>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{l:Loc MaxSize}" Style="{StaticResource SettingLabelStyle}"/>
+                                            <Slider x:Name="SliderMagnification" Grid.Column="1" AutomationProperties.Name="{l:Loc MaxSize}"
+                                                    Style="{StaticResource ModernSliderStyle}" Minimum="2" Maximum="10" TickFrequency="0.5" Margin="12,0"/>
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                <TextBox x:Name="InputMagnification" Style="{StaticResource NumberInputStyle}" AutomationProperties.Name="{l:Loc MaxSize}"/>
+                                                <TextBlock Text="{l:Loc UnitTimes}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <TextBlock x:Name="ErrorMagnification" Visibility="Collapsed" Foreground="#A32122" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+                                        <Border Height="1" Margin="0,6" Background="{StaticResource BorderBrush}"/>
+                                        <TextBlock Text="{l:Loc Enlargement}" Style="{StaticResource SettingLabelStyle}"/>
+                                        <WrapPanel Margin="0,4,0,0">
+                                            <RadioButton x:Name="ModeProportional" GroupName="EnlargementMode" Content="{l:Loc Proportional}"
+                                                         Foreground="{StaticResource TextPrimaryBrush}" Margin="0,0,12,0"/>
+                                            <RadioButton x:Name="ModeMaximum" GroupName="EnlargementMode" Content="{l:Loc Maximum}"
+                                                         Foreground="{StaticResource TextPrimaryBrush}"/>
+                                        </WrapPanel>
+                                        <Border Height="1" Margin="0,6" Background="{StaticResource BorderBrush}"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{l:Loc Hold}" Style="{StaticResource SettingLabelStyle}"/>
+                                            <Slider x:Name="SliderMaxSizeHold" Grid.Column="1" Style="{StaticResource ModernSliderStyle}"
+                                                    Minimum="0" Maximum="10" TickFrequency="0.5" SmallChange="0.5" LargeChange="1"
+                                                    AutomationProperties.Name="{l:Loc Hold}" Margin="12,0"/>
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                <TextBox x:Name="InputHold" Style="{StaticResource NumberInputStyle}" AutomationProperties.Name="{l:Loc Hold}"/>
+                                                <TextBlock Text="{l:Loc UnitSeconds}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <TextBlock x:Name="ErrorHold" Visibility="Collapsed" Foreground="#A32122" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+                                        <TextBlock Text="{l:Loc HoldHelp}" Style="{StaticResource SettingDescriptionStyle}"/>
+                                        <Border Height="1" Margin="0,6" Background="{StaticResource BorderBrush}"/>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{l:Loc ShrinkSpeed}" Style="{StaticResource SettingLabelStyle}"/>
+                                            <Slider x:Name="SliderShrinkSpeed" Grid.Column="1" Style="{StaticResource ModernSliderStyle}"
+                                                    Minimum="0.5" Maximum="3" TickFrequency="0.1" SmallChange="0.1" LargeChange="0.5"
+                                                    AutomationProperties.Name="{l:Loc ShrinkSpeed}" Margin="12,0"/>
+                                            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                                <TextBox x:Name="InputShrinkSpeed" Style="{StaticResource NumberInputStyle}" AutomationProperties.Name="{l:Loc ShrinkSpeed}"/>
+                                                <TextBlock Text="{l:Loc UnitTimes}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                        <TextBlock x:Name="ErrorShrinkSpeed" Visibility="Collapsed" Foreground="#A32122" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+                                    </StackPanel>
+                                </Border>
+
+                                <TextBlock Text="{l:Loc SectionCommandLine}" Style="{StaticResource SectionHeaderStyle}" Margin="0,6,0,8"/>
+                                <Border Style="{StaticResource SettingsCardStyle}">
+                                    <StackPanel>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{l:Loc CommandLineDuration}" Style="{StaticResource SettingLabelStyle}"/>
+                                        <Slider x:Name="SliderCommandLineDuration" Grid.Column="1" Style="{StaticResource ModernSliderStyle}"
+                                                Minimum="0.5" Maximum="30" TickFrequency="0.5" SmallChange="0.5" LargeChange="1"
+                                                AutomationProperties.Name="{l:Loc CommandLineDuration}" Margin="12,0"/>
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                            <TextBox x:Name="InputCommandLineDuration" Style="{StaticResource NumberInputStyle}" AutomationProperties.Name="{l:Loc CommandLineDuration}"/>
+                                            <TextBlock Text="{l:Loc UnitSeconds}" Margin="5,0,0,0" VerticalAlignment="Center" Foreground="{StaticResource TextSecondaryBrush}"/>
+                                        </StackPanel>
+                                    </Grid>
+                                    <TextBlock x:Name="ErrorCommandLineDuration" Visibility="Collapsed" Foreground="#A32122" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+                                    <TextBlock Text="{l:Loc CommandLineUsage}" Style="{StaticResource SettingDescriptionStyle}"/>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <ScrollViewer x:Name="PanelGeneral" VerticalScrollBarVisibility="Auto" Padding="20">
+                            <StackPanel MaxWidth="500">
+                                <TextBlock Text="{l:Loc SectionGeneral}" Style="{StaticResource SectionHeaderStyle}"/>
+
+                                <Border Style="{StaticResource SettingsCardStyle}">
+                                    <DockPanel LastChildFill="False">
+                                        <TextBlock Text="{l:Loc LanguageLabel}" VerticalAlignment="Center"
+                                                   Style="{StaticResource SettingLabelStyle}"/>
+                                        <ComboBox x:Name="LanguagePicker" DockPanel.Dock="Right" MinWidth="135" Style="{StaticResource LanguageComboBoxStyle}"
+                                                  SelectedValuePath="Tag" AutomationProperties.Name="{l:Loc LanguageLabel}">
+                                            <ComboBoxItem Tag="system" Content="{l:Loc LanguageSystem}"/>
+                                            <ComboBoxItem Tag="en" Content="{l:Loc LanguageEnglish}"/>
+                                            <ComboBoxItem Tag="zh-Hans" Content="{l:Loc LanguageChinese}"/>
+                                        </ComboBox>
+                                    </DockPanel>
+                                </Border>
+
+
+
+                                <!-- Run on Startup -->
+                                <Border Style="{StaticResource SettingsCardStyle}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel>
+                                            <TextBlock Text="{l:Loc Startup}" Style="{StaticResource SettingLabelStyle}"/>
+                                        </StackPanel>
+                                        <CheckBox AutomationProperties.Name="{l:Loc Startup}" x:Name="ToggleStartup" Grid.Column="1"
+                                                  Style="{StaticResource ToggleSwitchStyle}"
+                                                  VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Disable in Fullscreen -->
+                                <Border Style="{StaticResource SettingsCardStyle}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel>
+                                            <TextBlock Text="{l:Loc Fullscreen}" Style="{StaticResource SettingLabelStyle}"/>
+                                            <TextBlock Text="{l:Loc FullscreenHelp}"
+                                                       Style="{StaticResource SettingDescriptionStyle}"/>
+                                        </StackPanel>
+                                        <CheckBox AutomationProperties.Name="{l:Loc Fullscreen}" x:Name="ToggleFullscreen" Grid.Column="1"
+                                                  Style="{StaticResource ToggleSwitchStyle}"
+                                                  VerticalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+
+                                <TextBlock Text="{l:Loc SectionExcluded}" Style="{StaticResource SectionHeaderStyle}" Margin="0,8,0,10"/>
+
+                                <!-- Excluded Apps List -->
+                                <Border Style="{StaticResource SettingsCardStyle}">
+                                    <StackPanel>
+                                        <TextBlock x:Name="EmptyExclusions" Text="{l:Loc EmptyExclusions}"
+                                                   Style="{StaticResource SettingDescriptionStyle}"/>
+
+                                        <ListBox x:Name="ListExcludedApps"
+                                                 Style="{StaticResource ExcludedAppsListStyle}"
+                                                 MaxHeight="140"
+                                                 SelectionMode="Single" AutomationProperties.Name="{l:Loc SectionExcluded}">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid MinHeight="32" ToolTip="{Binding Rule}">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <StackPanel Margin="0,0,10,0" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding DisplayName}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"/>
+                                                            <TextBlock Text="{Binding DisplayPath}" FontSize="11" Foreground="{StaticResource TextSecondaryBrush}"
+                                                                       TextTrimming="CharacterEllipsis">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding HasPath}" Value="False">
+                                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding MatchProcessNameOnly}" Value="True">
+                                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </StackPanel>
+                                                        <CheckBox Grid.Column="1" Content="{l:Loc MatchProcessNameOnly}" VerticalAlignment="Center"
+                                                                  IsChecked="{Binding MatchProcessNameOnly, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                                  IsEnabled="{Binding HasPath}" ToolTipService.ShowOnDisabled="True">
+                                                            <CheckBox.Style>
+                                                                <Style TargetType="CheckBox" BasedOn="{StaticResource ToggleSwitchStyle}">
+                                                                    <Setter Property="ToolTip" Value="{l:Loc MatchProcessNameOnlyHelp}"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding HasPath}" Value="False">
+                                                                            <Setter Property="ToolTip" Value="{l:Loc LegacyNameRuleHelp}"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </CheckBox.Style>
+                                                        </CheckBox>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+
+                                        <Grid Margin="0,10,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Margin="0,0,8,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Button x:Name="BtnAddApp" Content="{l:Loc AddApp}" Style="{StaticResource AccentButtonStyle}"
+                                                        Click="BtnAddApp_Click" Margin="0,0,6,0"/>
+                                                <Button x:Name="BtnAddCurrentApp" Grid.Column="1" HorizontalAlignment="Left"
+                                                        Style="{StaticResource ModernButtonStyle}" Click="BtnAddCurrentApp_Click">
+                                                    <TextBlock x:Name="CurrentAppLabel" TextTrimming="CharacterEllipsis"/>
+                                                </Button>
+                                            </Grid>
+                                            <Button x:Name="BtnRemoveApp" Content="{l:Loc Remove}" Grid.Column="1"
+                                                    Style="{StaticResource ModernButtonStyle}"
+                                                    Click="BtnRemoveApp_Click"/>
+                                        </Grid>
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </Border>
+
+                <!-- Bottom Bar -->
+                <Border Grid.Column="1" Grid.Row="1"
+                        Background="{StaticResource SidebarBrush}"
+                        Padding="16,8">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Confirmation of an explicit Apply. -->
+                        <TextBlock x:Name="SaveIndicator"
+                                   Text="{l:Loc Saved}"
+                                   Foreground="{StaticResource AccentBrush}"
+                                   FontSize="12"
+                                   VerticalAlignment="Center"
+                                   Opacity="0"/>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <Button x:Name="BtnPreview" Content="{l:Loc Preview}" Style="{StaticResource ModernButtonStyle}"
+                                    Click="BtnPreview_Click" Margin="0,0,6,0"/>
+                            <Button x:Name="BtnReset" Content="{l:Loc Reset}" Style="{StaticResource ModernButtonStyle}"
+                                    Click="BtnReset_Click" Margin="0,0,6,0"/>
+                            <Button x:Name="BtnApply" Content="{l:Loc Apply}" Style="{StaticResource ModernButtonStyle}"
+                                    Click="BtnApply_Click" Margin="0,0,6,0"/>
+                            <Button x:Name="BtnConfirm" Content="{l:Loc Confirm}" Style="{StaticResource AccentButtonStyle}"
+                                    Click="BtnConfirm_Click" IsDefault="True"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
