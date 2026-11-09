@@ -47,6 +47,7 @@ try {
     foreach ($document in @('README.md', 'README.zh-CN.md', 'LICENSE')) {
         Copy-Item -LiteralPath (Join-Path $repositoryRoot $document) -Destination $packageDirectory
     }
+    Copy-Item -LiteralPath (Join-Path $repositoryRoot 'images') -Destination $packageDirectory -Recurse
     $stagedZip = Join-Path $stagingRoot ($packageName + '.zip')
     [IO.Compression.ZipFile]::CreateFromDirectory($packageDirectory, $stagedZip,
         [IO.Compression.CompressionLevel]::Optimal, $true)
