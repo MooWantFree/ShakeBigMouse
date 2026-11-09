@@ -92,7 +92,24 @@ internal static partial class Program
     }
 
     [System.Runtime.InteropServices.DllImport("user32.dll")] private static extern nint GetForegroundWindow();
+    [System.Runtime.InteropServices.DllImport("user32.dll")] private static extern nint GetShellWindow();
     [System.Runtime.InteropServices.DllImport("user32.dll")] private static extern nint WindowFromPoint(MouseHook.NativePoint point);
+
+    private static void VerifyDesktopFullscreenDetection()
+    {
+        var desktop = GetShellWindow();
+        if (desktop == 0) throw new Exception("This check requires the Windows shell desktop.");
+        if (FullscreenDetector.IsFullscreenWindow(desktop))
+            throw new Exception("The shell desktop was classified as a fullscreen app.");
+
+        using var form = new System.Windows.Forms.Form {
+            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None,
+            StartPosition = System.Windows.Forms.FormStartPosition.Manual,
+            Bounds = System.Windows.Forms.Screen.PrimaryScreen!.Bounds
+        };
+        if (!FullscreenDetector.IsFullscreenWindow(form.Handle))
+            throw new Exception("A borderless app covering the monitor was missed.");
+    }
 
     private static void VerifyVisibleRolesAndBudget(uint dpi)
     {

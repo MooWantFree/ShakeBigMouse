@@ -17,6 +17,12 @@ public static class FullscreenDetector
     private static extern IntPtr GetForegroundWindow();
 
     [DllImport("user32.dll")]
+    private static extern IntPtr GetShellWindow();
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    private static extern int GetClassName(IntPtr hwnd, System.Text.StringBuilder name, int capacity);
+
+    [DllImport("user32.dll")]
     private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
     [DllImport("user32.dll")]
@@ -161,7 +167,22 @@ public static class FullscreenDetector
         }
     }
 
-    private static bool IsFullscreenWindow(IntPtr hwnd)
+    private static bool IsShellDesktop(IntPtr hwnd)
+    {
+        var shell = GetShellWindow();
+        if (shell == IntPtr.Zero) return false;
+        if (hwnd == shell) return true;
+
+        // Explorer can also host the desktop in a top-level WorkerW window.
+        GetWindowThreadProcessId(shell, out uint shellPid);
+        GetWindowThreadProcessId(hwnd, out uint windowPid);
+        if (shellPid == 0 || windowPid != shellPid) return false;
+        var name = new System.Text.StringBuilder(256);
+        GetClassName(hwnd, name, name.Capacity);
+        return name.ToString() == "WorkerW";
+    }
+
+    internal static bool IsFullscreenWindow(IntPtr hwnd)
     {
         // Get window rect
         if (!GetWindowRect(hwnd, out RECT windowRect))
@@ -191,6 +212,8 @@ public static class FullscreenDetector
             windowRect.Top <= monitorBounds.Top &&
             windowRect.Right >= monitorBounds.Right &&
             windowRect.Bottom >= monitorBounds.Bottom;
+
+        if (coversFullMonitor && IsShellDesktop(hwnd)) return false;
 
         // Also check work area (maximized window without taskbar)
         RECT workArea = monitorInfo.rcWork;
