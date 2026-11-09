@@ -49,7 +49,7 @@ public partial class SettingsWindow : Window
         Deactivated += (_, _) => _cancelPreview?.Invoke();
         SourceInitialized += (_, _) => FitHeightToWorkArea();
         foreach (var toggle in new System.Windows.Controls.Primitives.ToggleButton[]
-            { ToggleStartup, ToggleFullscreen, ModeProportional, ModeMaximum })
+            { ToggleStartup, TogglePortableMode, ToggleFullscreen, ModeProportional, ModeMaximum })
         {
             toggle.Checked += (_, _) => UpdateActions();
             toggle.Unchecked += (_, _) => UpdateActions();
@@ -78,6 +78,7 @@ public partial class SettingsWindow : Window
         _loading = true;
         LanguagePicker.SelectedValue = UiText.Normalize(s.Language);
         ToggleStartup.IsChecked = s.RunOnStartup;
+        TogglePortableMode.IsChecked = s.PortableMode;
         SliderMinimumShakeDistance.Value = s.MinimumShakeDistance;
         SliderShakeWindowMs.Value = s.ShakeWindowMs;
         SliderShakeSensitivityPercent.Value = s.ShakeSensitivityPercent;
@@ -110,6 +111,7 @@ public partial class SettingsWindow : Window
         {
             Language = UiText.Normalize(LanguagePicker.SelectedValue as string),
             RunOnStartup = ToggleStartup.IsChecked == true,
+            PortableMode = TogglePortableMode.IsChecked == true,
             MinimumShakeDistance = (int)SliderMinimumShakeDistance.Value,
             ShakeWindowMs = (int)SliderShakeWindowMs.Value,
             ShakeSensitivityPercent = (int)SliderShakeSensitivityPercent.Value,
@@ -147,7 +149,7 @@ public partial class SettingsWindow : Window
         UpdateActions();
     }
     private bool HasChanges(AppSettings s) =>
-        s.Language != _saved.Language || s.RunOnStartup != _saved.RunOnStartup ||
+        s.Language != _saved.Language || s.RunOnStartup != _saved.RunOnStartup || s.PortableMode != _saved.PortableMode ||
         s.MinimumShakeDistance != _saved.MinimumShakeDistance || s.ShakeWindowMs != _saved.ShakeWindowMs ||
         s.ShakeSensitivityPercent != _saved.ShakeSensitivityPercent || s.MagnificationFactor != _saved.MagnificationFactor ||
         s.MaxSizeHoldSeconds != _saved.MaxSizeHoldSeconds || s.ScaleWithShakeStrength != _saved.ScaleWithShakeStrength ||
@@ -266,8 +268,8 @@ public partial class SettingsWindow : Window
     private void BtnReset_Click(object sender, RoutedEventArgs e)
     {
         _cancelPreview?.Invoke();
-        // Reset mouse parameters without changing the current startup choice, including unsaved edits.
-        LoadSettings(new AppSettings { Language = _saved.Language, RunOnStartup = ToggleStartup.IsChecked == true });
+        LoadSettings(new AppSettings { Language = _saved.Language, RunOnStartup = ToggleStartup.IsChecked == true,
+            PortableMode = TogglePortableMode.IsChecked == true });
     }
 
     private void BtnPreview_Click(object sender, RoutedEventArgs e)

@@ -6,7 +6,14 @@
 
 ## 开始使用
 
-双击运行 `ShakeBigMouse.exe`, 来回晃动鼠标即可放大指针.
+按需选择 Windows x64 压缩包。
+
+| 下载文件 | 运行条件 |
+| --- | --- |
+| `ShakeBigMouse-win-x64.zip` | 自带 .NET 运行时，解压即可使用。 |
+| `ShakeBigMouse-win-x64-framework-dependent.zip` | 电脑需安装 .NET 10 桌面运行时（x64）。 |
+
+解压后双击运行 `ShakeBigMouse.exe`，来回晃动鼠标即可放大指针。
 
 ![晃动鼠标后指针放大并缩回原状](images/shake-demo.webp)
 
@@ -32,11 +39,12 @@
 
 ## Windows 构建
 
-在 Windows 上安装 .NET 10 SDK 和 PowerShell 7, 然后运行以下命令构建并验证 ZIP 包.
+在 Windows 上安装 .NET 10 SDK 和 PowerShell 7，然后运行以下命令构建并验证两种 ZIP。每个包内只有 `ShakeBigMouse.exe`。
 
 ```powershell
 pwsh -File ./scripts/Publish-Windows.ps1
 pwsh -File ./scripts/Test-WindowsPackage.ps1 -ZipPath ./dist/windows/ShakeBigMouse-win-x64.zip
+pwsh -File ./scripts/Test-WindowsPackage.ps1 -ZipPath ./dist/windows/ShakeBigMouse-win-x64-framework-dependent.zip -FrameworkDependent
 ```
 
 ## 许可证

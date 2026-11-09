@@ -21,6 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="..\LICENSE" LogicalName="ShakeBigMouse.LICENSE" />
     <EmbeddedResource Include="Assets\PointerIcon.ico" LogicalName="ShakeToFindCursor.Assets.TrayIcon.ico" />
   </ItemGroup>
 

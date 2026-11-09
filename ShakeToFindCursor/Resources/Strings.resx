@@ -10,6 +10,9 @@
   <data name="General" xml:space="preserve"><value>General</value></data>
   <data name="SectionGeneral" xml:space="preserve"><value>GENERAL</value></data>
   <data name="Startup" xml:space="preserve"><value>Launch at Login</value></data>
+  <data name="PortableMode" xml:space="preserve"><value>Portable mode</value></data>
+  <data name="PortableModeHelp" xml:space="preserve"><value>Save settings.json next to the executable.</value></data>
+  <data name="PortableSameFolder" xml:space="preserve"><value>The executable is already in the user settings folder. Move it to another folder to use portable mode.</value></data>
   <data name="SectionShake" xml:space="preserve"><value>SHAKE DETECTION</value></data>
   <data name="Distance" xml:space="preserve"><value>Minimum shake distance</value></data>
   <data name="SizeValue" xml:space="preserve"><value>{0:0.0}×</value></data>

@@ -39,19 +39,28 @@ jobs:
       - name: Build test project
         run: dotnet build ./tests/BehaviorTests/BehaviorTests.csproj --configuration Release
 
-      - name: Publish self-contained Windows ZIP
-        id: package
+      - name: Test portable settings
+        run: dotnet run --no-build --project ./tests/BehaviorTests/BehaviorTests.csproj --configuration Release -- --settings-storage
+
+      - name: Publish and verify both ZIPs
         run: |
-          $package = & ./scripts/Publish-Windows.ps1
-          "zip-path=$($package.ZipPath)" >> $env:GITHUB_OUTPUT
+          $packages = & ./scripts/Publish-Windows.ps1
+          foreach ($package in $packages) {
+            ./scripts/Test-WindowsPackage.ps1 -ZipPath $package.ZipPath -FrameworkDependent:(-not $package.SelfContained)
+          }
 
-      - name: Verify packaged executable
-        run: ./scripts/Test-WindowsPackage.ps1 -ZipPath '${{ steps.package.outputs.zip-path }}'
-
-      - name: Upload ZIP
+      - name: Upload self-contained ZIP
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          path: ${{ steps.package.outputs.zip-path }}
+          path: dist/windows/ShakeBigMouse-win-x64.zip
+          archive: false
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload framework-dependent ZIP
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          path: dist/windows/ShakeBigMouse-win-x64-framework-dependent.zip
           archive: false
           if-no-files-found: error
           retention-days: 30

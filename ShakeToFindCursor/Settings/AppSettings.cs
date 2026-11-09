@@ -46,7 +46,10 @@ public class AppSettings
     // System
     public bool RunOnStartup { get; set; } = false;
 
-    private static readonly string SettingsPath = Path.Combine(
+    // The file's location selects the mode, including for copied or older settings.
+    internal bool PortableMode { get; set; } = true;
+    private static readonly string PortablePath = Path.Combine(AppContext.BaseDirectory, "settings.json");
+    private static readonly string UserPath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "ShakeToFindCursor",
         "settings.json");
@@ -60,21 +63,27 @@ public class AppSettings
         return copy;
     }
 
-    public static AppSettings Load()
+    public static AppSettings Load() => Load(PortablePath, UserPath);
+
+    internal static AppSettings Load(string portablePath, string userPath)
     {
-        if (File.Exists(SettingsPath))
+        bool portable = !string.Equals(portablePath, userPath, StringComparison.OrdinalIgnoreCase) &&
+            (File.Exists(portablePath) || !File.Exists(userPath));
+        string path = portable ? portablePath : userPath;
+        var settings = new AppSettings();
+        if (File.Exists(path))
         {
             try
             {
-                var json = File.ReadAllText(SettingsPath);
-                return FromJson(json);
+                settings = FromJson(File.ReadAllText(path));
             }
             catch (Exception ex)
             {
-                LogLoadError(ex);
+                LogLoadError(ex, path);
             }
         }
-        return new AppSettings();
+        settings.PortableMode = portable;
+        return settings;
     }
 
     public static AppSettings FromJson(string json)
@@ -112,11 +121,11 @@ public class AppSettings
             : 0;
     }
 
-    private static void LogLoadError(Exception ex)
+    private static void LogLoadError(Exception ex, string path)
     {
         try
         {
-            var dir = Path.GetDirectoryName(SettingsPath);
+            var dir = Path.GetDirectoryName(path);
             if (dir != null)
             {
                 Directory.CreateDirectory(dir);
@@ -126,24 +135,48 @@ public class AppSettings
         catch { }
     }
 
-    internal void Save(bool previousStartup)
+    internal void Save(AppSettings previous) => Save(previous, PortablePath, UserPath);
+
+    internal void Save(AppSettings previous, string portablePath, string userPath)
     {
-        Directory.CreateDirectory(Path.GetDirectoryName(SettingsPath)!);
-        string temporary = SettingsPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
-        bool changeStartup = RunOnStartup != previousStartup;
+        if (PortableMode && string.Equals(portablePath, userPath, StringComparison.OrdinalIgnoreCase))
+            throw new IOException(Localization.UiText.Current["PortableSameFolder"]);
+
+        string path = PortableMode ? portablePath : userPath;
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+        bool leavingPortable = previous.PortableMode && !PortableMode;
+        string? backup = leavingPortable && File.Exists(userPath) ? temporary + ".bak" : null;
+        bool changeStartup = RunOnStartup != previous.RunOnStartup;
         try
         {
             File.WriteAllText(temporary, JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true }));
             if (changeStartup && !ApplyStartupSettings(RunOnStartup))
                 throw new IOException(Localization.UiText.Current["ErrorStartup"]);
-            try { File.Move(temporary, SettingsPath, overwrite: true); }
+            try
+            {
+                if (backup != null) File.Replace(temporary, path, backup);
+                else File.Move(temporary, path, overwrite: true);
+                if (leavingPortable)
+                {
+                    // Keep the old portable file authoritative until the new user copy is in place.
+                    try { File.Delete(portablePath); }
+                    catch
+                    {
+                        if (backup != null) File.Move(backup, path, overwrite: true);
+                        else File.Delete(path);
+                        throw;
+                    }
+                }
+            }
             catch
             {
-                if (changeStartup) ApplyStartupSettings(previousStartup);
+                if (changeStartup) ApplyStartupSettings(previous.RunOnStartup);
                 throw;
             }
         }
         finally { File.Delete(temporary); }
+        if (backup != null) File.Delete(backup);
     }
 
     private static bool ApplyStartupSettings(bool enabled)

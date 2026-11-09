@@ -380,7 +380,7 @@ public partial class App : System.Windows.Application
     {
         ((App)Current).CancelPreview();
         var previous = CurrentSettings;
-        next.Save(previous.RunOnStartup);
+        next.Save(previous);
         CurrentSettings = next;
         UiText.Current.Apply(next.Language);
         ((App)Current)._refreshTray?.Invoke();

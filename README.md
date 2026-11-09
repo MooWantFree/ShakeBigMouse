@@ -6,7 +6,14 @@ Shake the mouse to enlarge the pointer on Windows, just like on macOS.
 
 ## Getting started
 
-Run `ShakeBigMouse.exe`, then shake the mouse to enlarge the pointer.
+Choose a Windows x64 ZIP:
+
+| Download | Runtime |
+| --- | --- |
+| `ShakeBigMouse-win-x64.zip` | Includes the .NET runtime. |
+| `ShakeBigMouse-win-x64-framework-dependent.zip` | Requires the .NET 10 Desktop Runtime (x64) on your PC. |
+
+Extract `ShakeBigMouse.exe`, run it, then shake the mouse to enlarge the pointer.
 
 ![The pointer grows when the mouse is shaken, then returns to its usual size](images/shake-demo.webp)
 
@@ -32,11 +39,12 @@ Open **Shake** in Settings. By default, the harder you shake the mouse, the larg
 
 ## Building on Windows
 
-Install the .NET 10 SDK and PowerShell 7 on Windows, then run these commands to build and verify the ZIP package.
+Install the .NET 10 SDK and PowerShell 7 on Windows, then run these commands to build and verify both ZIPs. Each contains only `ShakeBigMouse.exe`.
 
 ```powershell
 pwsh -File ./scripts/Publish-Windows.ps1
 pwsh -File ./scripts/Test-WindowsPackage.ps1 -ZipPath ./dist/windows/ShakeBigMouse-win-x64.zip
+pwsh -File ./scripts/Test-WindowsPackage.ps1 -ZipPath ./dist/windows/ShakeBigMouse-win-x64-framework-dependent.zip -FrameworkDependent
 ```
 
 ## License

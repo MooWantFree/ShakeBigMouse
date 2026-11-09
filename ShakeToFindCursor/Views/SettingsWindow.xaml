@@ -751,6 +751,19 @@
                                     </Grid>
                                 </Border>
 
+                                <Border Style="{StaticResource SettingsCardStyle}">
+                                    <DockPanel>
+                                        <CheckBox x:Name="TogglePortableMode" DockPanel.Dock="Right"
+                                                  AutomationProperties.Name="{l:Loc PortableMode}"
+                                                  AutomationProperties.HelpText="{l:Loc PortableModeHelp}"
+                                                  Style="{StaticResource ToggleSwitchStyle}" VerticalAlignment="Center"/>
+                                        <StackPanel>
+                                            <TextBlock Text="{l:Loc PortableMode}" Style="{StaticResource SettingLabelStyle}"/>
+                                            <TextBlock Text="{l:Loc PortableModeHelp}" Style="{StaticResource SettingDescriptionStyle}"/>
+                                        </StackPanel>
+                                    </DockPanel>
+                                </Border>
+
                                 <!-- Disable in Fullscreen -->
                                 <Border Style="{StaticResource SettingsCardStyle}">
                                     <Grid>

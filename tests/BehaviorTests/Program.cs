@@ -31,6 +31,8 @@ internal static partial class Program
         if (args.Contains("--desktop-shrink-trace")) { TraceDesktopShrink(); return; }
         if (args.Contains("--shrink-frames")) { ProbeShrinkFrames(); return; }
         if (args.Contains("--desktop-cross-shake")) { ProbeRunningAppAcrossScreens(); return; }
+        Check("portable settings default, selection, migration and rollback", VerifyPortableSettings);
+        if (args.Contains("--settings-storage")) return;
         Check("fullscreen detection allows the shell desktop and recognizes a borderless fullscreen app", VerifyDesktopFullscreenDetection);
         Check("decimal editors preview draft settings without saving and reject invalid values", VerifyDraftPreview);
         Check("preview completes, cancels and restores the saved animation configuration", VerifyPreviewAnimation);
